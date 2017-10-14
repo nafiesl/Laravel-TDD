@@ -7,6 +7,7 @@
 </head>
 <body>
     <form action="{{ url('tasks') }}" method="post">
+        {{ csrf_field() }}
         <input type="text" name="name">
         <textarea name="description"></textarea>
         <input type="submit" value="Create Task">
