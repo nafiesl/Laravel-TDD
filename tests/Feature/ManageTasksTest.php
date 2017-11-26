@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ManageTasksTest extends TestCase
 {
@@ -17,15 +17,15 @@ class ManageTasksTest extends TestCase
 
         // Submit Form dengan form isian `name` dan `description`
         $this->submitForm('Create Task', [
-            'name' => 'My First Task',
+            'name'        => 'My First Task',
             'description' => 'This is my first task on my new job.',
         ]);
 
         // Lihat Record tersimpan ke database
         $this->seeInDatabase('tasks', [
-            'name' => 'My First Task',
+            'name'        => 'My First Task',
             'description' => 'This is my first task on my new job.',
-            'is_done' => 0,
+            'is_done'     => 0,
         ]);
 
         // Redirect ke halaman Daftar Task
@@ -34,6 +34,20 @@ class ManageTasksTest extends TestCase
         // Tampil hasil task yang telah diinput
         $this->see('My First Task');
         $this->see('This is my first task on my new job.');
+    }
+
+    /** @test */
+    public function task_entry_must_pass_validation()
+    {
+        // Submit form untuk membuat task baru
+        // dengan field name description kosong
+        $this->post('/tasks', [
+            'name'        => '',
+            'description' => '',
+        ]);
+
+        // Cek pada session apakah ada error untuk field nama dan description
+        $this->assertSessionHasErrors(['name', 'description']);
     }
 
     /** @test */
