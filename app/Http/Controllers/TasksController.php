@@ -52,13 +52,7 @@ class TasksController extends Controller
 
     public function toggle(Task $task)
     {
-        if ($task->is_done == 1) {
-            $task->is_done = 0;
-        } else {
-            $task->is_done = 1;
-        }
-
-        $task->save();
+        $task->toggleStatus();
 
         return back();
     }
